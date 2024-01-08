@@ -6,6 +6,15 @@ export default async function handler(req, res) {
     const { method } = req;
     await mongooseConnect()
 
+    //post get request
+    if (method === 'GET') {
+        if (req.query?.id) {
+            res.json(await Product.findOne({ _id: req.query.id }))
+        } else {
+            res.json(await Product.find({}))
+        }
+    }
+
     //post product request
     if (method === 'POST') {
         const { title, description, price } = req.body
