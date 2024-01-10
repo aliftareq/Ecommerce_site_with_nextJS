@@ -27,10 +27,18 @@ export default async function handler(req, res) {
         res.json(productDoc)
     }
 
-    //post product request
+    //update product request
     if (method === 'PUT') {
         const { title, description, price, _id } = req.body
         await Product.updateOne({ _id }, { title, description, price })
+        res.json(true)
+    }
+
+    //delete product request
+    if (method === 'DELETE') {
+        if (req.query?.id) {
+            await Product.deleteOne({ _id: req.query?.id })
+        }
         res.json(true)
     }
 }
