@@ -2,6 +2,8 @@ import multiparty from 'multiparty';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import fs from 'fs';
 import mime from 'mime-types';
+
+
 const bucketName = 'alif-next-ecommerce'
 
 export default async function handle(req, res) {
@@ -13,7 +15,6 @@ export default async function handle(req, res) {
             resolve({ fields, files });
         });
     });
-    console.log('length:', files.file.length);
     const client = new S3Client({
         region: 'ap-southeast-2',
         credentials: {
