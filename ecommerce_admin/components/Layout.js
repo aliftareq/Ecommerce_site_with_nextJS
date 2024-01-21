@@ -13,7 +13,6 @@ export default function Layout({ children }) {
         );
     }
 
-
     return (
         <div className="bg-blue-900 min-h-screen flex">
             <Navbar />
