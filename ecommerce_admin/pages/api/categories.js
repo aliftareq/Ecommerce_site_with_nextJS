@@ -15,7 +15,9 @@ export default async function handle(req, res) {
     //post product request
     if (method === 'POST') {
         const { name, parentCategory } = req.body;
-        const parentCategoryObject = await Category.findOne({ name: parentCategory });
+        console.log(name, parentCategory);
+        const parentCategoryObject = await Category.findOne({ _id: parentCategory });
+        console.log(parentCategoryObject);
         const categoryDoc = await Category.create({
             name,
             parent: parentCategoryObject ? parentCategoryObject._id : undefined,

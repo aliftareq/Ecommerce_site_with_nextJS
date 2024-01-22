@@ -9,6 +9,9 @@ const Categories = ({ swal }) => {
     const [categories, setCategories] = useState([]);
     const [editedCategory, setEditedCategory] = useState(null);
 
+    console.log('categories', categories);
+    console.log('setparentcategory', parentCategory);
+
 
     useEffect(() => {
         fetchCategories()
@@ -21,8 +24,8 @@ const Categories = ({ swal }) => {
     const saveCategory = async (ev) => {
         ev.preventDefault();
         const data = { name, parentCategory }
-        if (editCategory) {
-            data._id = editedCategory._id;
+        if (editedCategory) {
+            data._id = editedCategory?._id;
             await axios.put('/api/categories', data)
             setEditedCategory(null)
         } else {
@@ -64,15 +67,12 @@ const Categories = ({ swal }) => {
                 <input className='mb-0' type="text" placeholder='Category Name' value={name} onChange={(ev) => setName(ev.target.value)} />
                 <select
                     className='mb-0'
-                    value={parentCategory}
-                    onChange={(ev) => setParentCategory(ev.target.value)}
-                >
-                    <option value="">No Parent Category</option>
-                    {categories?.length > 0 &&
-                        categories.map((category) => (
-                            <option key={category._id} value={category._id}>{category.name}</option>
-                        ))
-                    }
+                    onChange={ev => setParentCategory(ev.target.value)}
+                    value={parentCategory}>
+                    <option value="">No parent category</option>
+                    {categories.length > 0 && categories.map(category => (
+                        <option key={category._id} value={category._id}>{category.name}</option>
+                    ))}
                 </select>
                 <button type='submit' className='btn-primary'>Save</button>
             </form>
