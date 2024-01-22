@@ -13,6 +13,7 @@ const ProductForm = ({
     price: extstingPrice,
     images: existingImages,
     category: assignedCategory,
+    properties: assignedProperties,
 }) => {
     const [title, setTitle] = useState(extstingTitle || '');
     const [description, setDescription] = useState(extstingDescription || '');
@@ -22,6 +23,7 @@ const ProductForm = ({
     const [goToProducts, setGoToProducts] = useState(false)
     const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState(assignedCategory || '');
+    const [productProperties, setProductProperties] = useState(assignedProperties || {})
 
     const router = useRouter()
 
@@ -38,7 +40,8 @@ const ProductForm = ({
             description,
             price,
             images,
-            category
+            category,
+            properties: productProperties
         }
         if (_id) {
             //update
@@ -71,6 +74,27 @@ const ProductForm = ({
         setImages(images)
     }
 
+
+    const setProductProp = (propName, value) => {
+        setProductProperties(prev => {
+            const newProductProps = { ...prev };
+            newProductProps[propName] = value;
+            return newProductProps;
+        })
+    }
+
+    //taking and setting product value
+    const propertiesToFill = []
+    if (categories?.length > 0 && category) {
+        let catInfo = categories.find(({ _id }) => _id === category)
+        propertiesToFill.push(...catInfo?.properties)
+        while (catInfo?.parent?._id) {
+            const parentCat = categories.find(({ _id }) => _id === catInfo.parent._id)
+            propertiesToFill.push(...parentCat.properties)
+            catInfo = parentCat;
+        }
+    }
+
     if (goToProducts) {
         router.push('/products')
     }
@@ -93,6 +117,22 @@ const ProductForm = ({
                     <option key={category._id} value={category._id}>{category.name}</option>
                 ))}
             </select>
+            {
+                propertiesToFill?.length && propertiesToFill?.map(p => (
+                    <div className='flex gap-1'>
+                        <div>{p.name} : </div>
+                        <select
+                            value={productProperties[p.name]}
+                            onChange={(ev) => setProductProp(p.name, ev.target.value)}
+                            className='w-1/5'
+                        >
+                            {p.values.map(v => (
+                                <option value={v}>{v}</option>
+                            ))}
+                        </select>
+                    </div>
+                ))
+            }
             <label>Photos</label>
             <div className='mb-2 flex flex-wrap gap-1'>
                 <ReactSortable list={images} setList={updateImagesOrder} className='flex flex-wrap gap-1'>
