@@ -1,6 +1,5 @@
 import { mongooseConnect } from "@/lib/mongoose";
 import { Category } from "@/models/Category";
-import { isValidObjectId } from "mongoose";
 
 export default async function handle(req, res) {
     //connection and method 
@@ -14,23 +13,23 @@ export default async function handle(req, res) {
 
     //post product request
     if (method === 'POST') {
-        const { name, parentCategory } = req.body;
-        console.log(name, parentCategory);
+        const { name, parentCategory, properties } = req.body;
         const parentCategoryObject = await Category.findOne({ _id: parentCategory });
-        console.log(parentCategoryObject);
         const categoryDoc = await Category.create({
             name,
             parent: parentCategoryObject ? parentCategoryObject._id : undefined,
+            properties,
         });
         res.json(categoryDoc);
     }
 
     //Put product request
     if (method === 'PUT') {
-        const { _id, name, parentCategory } = req.body;
+        const { _id, name, parentCategory, properties } = req.body;
         const categoryDoc = await Category.updateOne({ _id }, {
             name,
-            parent: parentCategory
+            parent: parentCategory || undefined,
+            properties
         });
         res.json(categoryDoc);
     }
