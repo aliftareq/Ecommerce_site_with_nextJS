@@ -84,16 +84,25 @@ const ProductForm = ({
     }
 
     //taking and setting product value
-    const propertiesToFill = []
-    if (categories?.length > 0 && category) {
-        let catInfo = categories.find(({ _id }) => _id === category)
-        propertiesToFill.push(...catInfo?.properties)
-        while (catInfo?.parent?._id) {
-            const parentCat = categories.find(({ _id }) => _id === catInfo.parent._id)
-            propertiesToFill.push(...parentCat.properties)
-            catInfo = parentCat;
+    const propertiesToFill = [];
+
+    if (categories.length > 0 && category) {
+        let catInfo = categories.find(({ _id }) => _id === category);
+        if (catInfo) {
+            propertiesToFill.push(...catInfo?.properties);
+            while (catInfo?.parent?._id) {
+                const parentCat = categories.find(({ _id }) => _id === catInfo.parent._id);
+                if (parentCat) {
+                    propertiesToFill.push(...parentCat.properties);
+                    catInfo = parentCat;
+                } else {
+                    // Handle the case where parentCat is undefined
+                    break; // Exit the loop to avoid an infinite loop
+                }
+            }
         }
     }
+
 
     if (goToProducts) {
         router.push('/products')

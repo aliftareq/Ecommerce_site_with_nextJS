@@ -1,10 +1,13 @@
 import { mongooseConnect } from "@/lib/mongoose";
 import { Category } from "@/models/Category";
+import { getServerSession } from "next-auth";
+import { authOptions, isAdminRequest } from "./auth/[...nextauth]";
 
 export default async function handle(req, res) {
     //connection and method 
     const { method } = req;
     await mongooseConnect()
+    await isAdminRequest(req, res)
 
     //category get request
     if (method === 'GET') {
@@ -14,10 +17,9 @@ export default async function handle(req, res) {
     //post product request
     if (method === 'POST') {
         const { name, parentCategory, properties } = req.body;
-        const parentCategoryObject = await Category.findOne({ _id: parentCategory });
         const categoryDoc = await Category.create({
             name,
-            parent: parentCategoryObject ? parentCategoryObject._id : undefined,
+            parent: parentCategory || undefined,
             properties,
         });
         res.json(categoryDoc);

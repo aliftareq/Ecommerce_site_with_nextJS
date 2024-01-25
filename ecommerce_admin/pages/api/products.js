@@ -1,10 +1,12 @@
 import { mongooseConnect } from "@/lib/mongoose";
 import { Product } from "@/models/Product";
+import { isAdminRequest } from "./auth/[...nextauth]";
 
 export default async function handler(req, res) {
     //connection and method 
     const { method } = req;
     await mongooseConnect()
+    await isAdminRequest(req, res)
 
     //post get request
     if (method === 'GET') {
