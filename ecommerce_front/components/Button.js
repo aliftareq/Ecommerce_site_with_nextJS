@@ -14,6 +14,19 @@ export const ButtonStyle = css`
     svg{
         height: 16px;
     }
+    ${props => props?.block && css`
+        display: block;
+        width: 100%;
+    `}
+    ${props => props?.black && !props.outline && css`
+        background-color: #000;
+        color: #fff;
+    `}
+    ${props => props?.black && props.outline && css`
+        background-color: transparent;
+        color: #000;
+        border: 2px solid #000;
+    `}
     ${props => props?.white && !props.outline && css`
         background-color: #fff;
         color: #000;
