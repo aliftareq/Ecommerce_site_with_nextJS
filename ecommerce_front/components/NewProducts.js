@@ -20,7 +20,7 @@ const NewProducts = ({ products }) => {
         <Center>
             <Title>New Arrivals</Title>
             <ProductsGrid>
-                {products?.length && products?.map(product => (
+                {products?.length && products?.map((product) => (
                     <ProductBox {...product} />
                 ))}
             </ProductsGrid>
