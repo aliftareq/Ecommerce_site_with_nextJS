@@ -34,15 +34,25 @@ const ProductInfoBox = styled.div`
 `
 
 const PriceRow = styled.div`
-    display: flex;
+    display: block;
     align-items: center;
     justify-content: space-between;
     margin-top: 2px;
+    @media screen and (min-width: 768px){
+        display: flex;
+        gap:5px;
+    }
 `
 
 const Price = styled.div`
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 400;
+    text-decoration: right;
+    @media screen and (min-width: 768px){
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-align: left;
+    }
 `
 
 const ProductBox = ({ _id, title, price, images, description, category }) => {
@@ -61,7 +71,7 @@ const ProductBox = ({ _id, title, price, images, description, category }) => {
                     <Price>
                         ${price}
                     </Price>
-                    <Button primary='true' outline='true' onClick={() => addProduct(_id)}>
+                    <Button block primary='true' outline='true' onClick={() => addProduct(_id)}>
                         Add To Cart
                     </Button>
                 </PriceRow>
