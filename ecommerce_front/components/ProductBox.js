@@ -71,7 +71,7 @@ const ProductBox = ({ _id, title, price, images, description, category }) => {
                     <Price>
                         ${price}
                     </Price>
-                    <Button block primary='true' outline='true' onClick={() => addProduct(_id)}>
+                    <Button block='true' primary='true' outline='true' onClick={() => addProduct(_id)}>
                         Add To Cart
                     </Button>
                 </PriceRow>

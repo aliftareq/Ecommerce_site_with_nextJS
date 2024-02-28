@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 `;
 
 const StyledNav = styled.nav`
-    ${props => props.mobileNavActive ? `
+    ${props => props.mobilenavactive ? `
         display: block;
     ` : `
         display:none;
@@ -72,21 +72,21 @@ const NavButton = styled.button`
 
 const Header = () => {
     const { cartProducts } = useContext(CartContext)
-    const [mobileNavActive, setMobileNavActive] = useState(false)
+    const [mobilenavactive, setmobilenavactive] = useState(false)
     return (
         <StyledHeader>
             <Center>
                 <Wrapper>
                     <Logo href={'/'}>GadgetEmporium
                     </Logo>
-                    <StyledNav mobileNavActive={mobileNavActive}>
+                    <StyledNav as="nav" mobilenavactive={mobilenavactive.toString()}>
                         <NavLink href={'/'}>Home</NavLink>
                         <NavLink href={'/products'}>All-Products</NavLink>
                         <NavLink href={'/categories'}>Categories</NavLink>
                         <NavLink href={'/account'}>Account</NavLink>
                         <NavLink href={'/cart'}>Cart ({cartProducts.length})</NavLink>
                     </StyledNav>
-                    <NavButton onClick={() => setMobileNavActive(prev => !prev)}>
+                    <NavButton onClick={() => setmobilenavactive(prev => !prev)}>
                         <BarsIcon />
                     </NavButton>
                 </Wrapper>
